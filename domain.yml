@@ -1,0 +1,44 @@
+version: "3.1"
+
+responses:
+  utter_saludo:
+    - text: "¡Hola! ¿En qué puedo ayudarte hoy?"
+    - text: "¡Buenos días! ¿Cómo puedo asistirte?"
+    - text: "¡Hola! ¿Qué tal tu día?"
+    - text: "¡Hola! ¿Necesitas ayuda con algo?"
+
+  utter_despedida:
+    - text: "¡Adiós! ¡Que tengas un buen día!"
+    - text: "¡Hasta luego! Cuídate."
+    - text: "¡Nos vemos pronto! ¡Adiós!"
+    - text: "¡Chao! ¡Fue un placer ayudarte!"
+
+  utter_preguntar_problemas:
+    - text: "¿En qué puedo ayudarte?"
+    - text: "¿Qué problemas tienes?"
+    - text: "¿Cual es tu probelma?"
+
+  utter_nombre_bot:
+    - text: "Soy Lyra, tu asistente virtual."
+    - text: "Me llamo Lyra"
+    - text: "Mi nombre es Lyra, un chatbot para ayudarte"
+
+  utter_default:
+    - text: "Lo siento, no entendí eso. ¿Puedes reformular tu pregunta?"
+
+intents:
+  - Saludo
+  - Despedida
+  - preguntar_Problemas
+  - preguntar_nombre_bot
+  - nlu_fallback 
+
+actions:
+  - action_saludar_usuario
+  - action_preguntar_problema
+  - action_default_fallback  
+
+session_config:
+  session_expiration_time: 200
+  carry_over_slots_to_new_session: true
+

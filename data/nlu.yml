@@ -1,0 +1,34 @@
+version: "3.1"
+
+nlu:
+  - intent: Saludo
+    examples: |
+      - hola
+      - buenos días
+      - buenas tardes
+      - qué tal
+      - hola, ¿qué tal?
+
+  - intent: Despedida
+    examples: |
+      - adiós
+      - hasta luego
+      - nos vemos
+      - chao
+      - hasta pronto
+
+  - intent: preguntar_Problemas
+    examples: |
+      - tengo un problema
+      - necesito ayuda
+      - hay un problema
+      - no funciona algo
+      - me puedes ayudar con un problema
+
+  - intent: preguntar_nombre_bot
+    examples: |
+      - ¿Cómo te llamas?
+      - ¿Cuál es tu nombre?
+      - ¿Quién eres?
+      - ¿Tienes nombre?
+      - Dime tu nombre

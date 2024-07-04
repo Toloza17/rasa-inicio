@@ -1,0 +1,28 @@
+version: "3.1"
+
+rules:
+  - rule: saludar
+    steps:
+      - intent: Saludo
+      - action: utter_saludo
+
+  - rule: despedirse
+    steps:
+      - intent: Despedida
+      - action: utter_despedida
+
+  - rule: responder problema
+    steps:
+      - intent: preguntar_Problemas
+      - action: utter_preguntar_problemas
+
+  - rule: preguntar nombre del bot
+    steps:
+      - intent: preguntar_nombre_bot
+      - action: utter_nombre_bot
+  
+  - rule: fallback
+    steps:
+      - intent: nlu_fallback
+      - action: action_default_fallback
+

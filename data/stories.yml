@@ -1,0 +1,24 @@
+version: "3.1"
+
+stories:
+  - story: Saludo
+    steps:
+      - intent: Saludo
+      - action: utter_saludo
+
+  - story: Despedida
+    steps:
+      - intent: Despedida
+      - action: utter_despedida
+
+  - story: Preguntar problema
+    steps:
+      - intent: preguntar_Problemas
+      - action: utter_preguntar_problemas
+
+  - story: Preguntar nombre bot
+    steps:
+      - intent: preguntar_nombre_bot
+      - action: utter_nombre_bot
+
+  - story: 
