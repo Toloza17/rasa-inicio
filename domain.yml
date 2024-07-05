@@ -16,7 +16,7 @@ responses:
   utter_preguntar_problemas:
     - text: "¿En qué puedo ayudarte?"
     - text: "¿Qué problemas tienes?"
-    - text: "¿Cual es tu probelma?"
+    - text: "¿Cuál es tu problema?"
 
   utter_nombre_bot:
     - text: "Soy Lyra, tu asistente virtual."
@@ -31,14 +31,13 @@ intents:
   - Despedida
   - preguntar_Problemas
   - preguntar_nombre_bot
-  - nlu_fallback 
+  - nlu_fallback
 
 actions:
   - action_saludar_usuario
   - action_preguntar_problema
-  - action_default_fallback  
+  - action_default_fallback
 
 session_config:
   session_expiration_time: 200
   carry_over_slots_to_new_session: true
-

@@ -11,18 +11,17 @@ rules:
       - intent: Despedida
       - action: utter_despedida
 
-  - rule: responder problema
+  - rule: responder_problema
     steps:
       - intent: preguntar_Problemas
       - action: utter_preguntar_problemas
 
-  - rule: preguntar nombre del bot
+  - rule: preguntar_nombre_del_bot
     steps:
       - intent: preguntar_nombre_bot
       - action: utter_nombre_bot
-  
+
   - rule: fallback
     steps:
       - intent: nlu_fallback
       - action: action_default_fallback
-

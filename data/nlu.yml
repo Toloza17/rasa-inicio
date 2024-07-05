@@ -32,3 +32,11 @@ nlu:
       - ¿Quién eres?
       - ¿Tienes nombre?
       - Dime tu nombre
+
+  - intent: nlu_fallback
+    examples: |
+      - ¿Cuál es tu color favorito?
+      - ¿Puedes cantar una canción?
+      - ¿Qué opinas sobre el clima?
+      - Dime el nombre de una fruta
+

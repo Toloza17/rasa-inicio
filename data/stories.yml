@@ -21,4 +21,8 @@ stories:
       - intent: preguntar_nombre_bot
       - action: utter_nombre_bot
 
-  - story: 
+  - story: Fallback
+    steps:
+      - intent: nlu_fallback
+      - action: action_default_fallback
+
