@@ -33,7 +33,7 @@ nlu:
 
 - intent: solo_numeros_y_blanco
   examples: |
-    - 1234
+    - q1234
     - 56789
     - " "
     - 0
@@ -43,3 +43,4 @@ nlu:
     - *
     - $ 
     - _
+    - 12a34
