@@ -27,7 +27,7 @@ responses:
     - text: "Lo siento, no entendí eso. ¿Puedes reformular tu pregunta?"
 
   utter_ask_invalid_number_question:
-    - text: "Solo respondo preguntas alfanuméricas. Vuelve a intentar."
+    - text: "Solo respondo preguntas Alfanuméricos. Vuelve a intentar."
 
   utter_ask_valid_question:
     - text: "Necesito una pregunta para responder."
