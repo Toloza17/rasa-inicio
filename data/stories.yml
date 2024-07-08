@@ -26,3 +26,7 @@ stories:
       - intent: nlu_fallback
       - action: action_default_fallback
 
+  - story: Usuario envía principalmente números o mensaje en blanco
+    steps:
+      - intent: solo_numeros_y_blanco
+      - action: action_solo_numeros_y_blanco

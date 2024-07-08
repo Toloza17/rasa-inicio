@@ -1,28 +1,30 @@
 language: "es"
 
 pipeline:
-- name: WhitespaceTokenizer
-- name: LexicalSyntacticFeaturizer
-- name: CountVectorsFeaturizer
-  analyzer: "char_wb"
-  min_ngram: 1
-  max_ngram: 4
-- name: DIETClassifier
-  epochs: 100
-  constrain_similarities: true
-- name: EntitySynonymMapper
-- name: ResponseSelector
-  epochs: 100
-  constrain_similarities: true
-- name: FallbackClassifier
-  threshold: 0.7
+  - name: WhitespaceTokenizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: "char_wb"
+    min_ngram: 1
+    max_ngram: 4
+  - name: DIETClassifier
+    epochs: 100
+    constrain_similarities: true
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
+    epochs: 100
+    constrain_similarities: true
+  - name: FallbackClassifier
+    threshold: 0.2
+    nlu_threshold: 0.2   # Ajusta este valor según sea necesario
+    core_threshold: 0.2  # Ajusta este valor según sea necesario
 
 policies:
-- name: MemoizationPolicy
-- name: RulePolicy
-- name: TEDPolicy
-  max_history: 5
-  epochs: 100
-  constrain_similarities: true
-assistant_id: 20240704-085432-compact-property
+  - name: MemoizationPolicy
+  - name: RulePolicy
+  - name: TEDPolicy
+    max_history: 5
+    epochs: 100
+    constrain_similarities: true
 
+assistant_id: 20240704-085432-compact-property
