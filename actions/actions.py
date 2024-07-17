@@ -34,7 +34,7 @@ class SoloNumerosYBlanco(Action):
             if num_count / len(words) >= 0.5:
                 dispatcher.utter_message(template="utter_ask_invalid_number_question")
             else:
-                dispatcher.utter_message(template="utter_ask_valid_question")
+                dispatcher.utter_message("")
         return []
 
 class MensajeEnBlanco(Action):
@@ -65,9 +65,7 @@ class ActionGuardarRespuesta(Action):
             "is_correct": is_correct
         }
 
-        # Ajusta la URL para que apunte al endpoint correcto en tu aplicación Django
-        response = requests.post("http://tu_dominio_django/save_response/", data=data)
+        response = requests.post("http://localhost:8000/rasadj/action/", data=data)
 
-        # Usa la plantilla correcta definida en domain.yml
         dispatcher.utter_message(template="utter_seleccionar_problema", problem_type=problem_type)
         return []

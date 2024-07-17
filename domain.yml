@@ -32,6 +32,9 @@ responses:
   utter_ask_valid_question:
     - text: "Necesito una pregunta para responder."
 
+  utter_seleccionar_problema:
+    - text: "Entiendo, tienes un {problem_type}. Vamos a solucionarlo."
+
 intents:
   - Saludo
   - Despedida
