@@ -30,3 +30,30 @@ stories:
     steps:
       - intent: solo_numeros_y_blanco
       - action: action_solo_numeros_y_blanco
+
+  - story: Selección de problema 1
+    steps:
+      - intent: preguntar_Problemas
+      - action: utter_preguntar_problemas
+      - intent: seleccionar_problema
+        entities:
+          - problem_type: "Problema con la clave"
+      - action: utter_seleccionar_problema
+
+  - story: Selección de problema 2
+    steps:
+      - intent: preguntar_Problemas
+      - action: utter_preguntar_problemas
+      - intent: seleccionar_problema
+        entities:
+          - problem_type: "Problema inicio sesion"
+      - action: utter_seleccionar_problema
+
+  - story: Selección de problema 3
+    steps:
+      - intent: preguntar_Problemas
+      - action: utter_preguntar_problemas
+      - intent: seleccionar_problema
+        entities:
+          - problem_type: "Otro tipo de problemas"
+      - action: utter_seleccionar_problema

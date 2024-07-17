@@ -14,9 +14,9 @@ responses:
     - text: "¡Chao! ¡Fue un placer ayudarte!"
 
   utter_preguntar_problemas:
-    - text: "¿En qué puedo ayudarte?"
-    - text: "¿Qué problemas tienes?"
-    - text: "¿Cuál es tu problema?"
+    - text: "¿Qué tipo de problema tienes?"
+    - custom:
+        text: "¿Cuál es el problema que estás experimentando?"
 
   utter_nombre_bot:
     - text: "Soy Lyra, tu asistente virtual."
@@ -27,7 +27,7 @@ responses:
     - text: "Lo siento, no entendí eso. ¿Puedes reformular tu pregunta?"
 
   utter_ask_invalid_number_question:
-    - text: "Solo respondo preguntas Alfanuméricos. Vuelve a intentar."
+    - text: "Solo respondo preguntas alfanuméricas. Vuelve a intentar."
 
   utter_ask_valid_question:
     - text: "Necesito una pregunta para responder."
@@ -39,6 +39,18 @@ intents:
   - preguntar_nombre_bot
   - nlu_fallback
   - solo_numeros_y_blanco
+  - seleccionar_problema
+
+entities:
+  - problem_type
+
+slots:
+  problem_type:
+    type: text
+    mappings:
+      - type: from_text
+        intent: seleccionar_problema
+        entity: problem_type
 
 actions:
   - action_saludar_usuario
@@ -46,6 +58,7 @@ actions:
   - action_default_fallback
   - action_solo_numeros_y_blanco
   - action_mensaje_en_blanco
+  - action_guardar_respuesta
 
 session_config:
   session_expiration_time: 200
