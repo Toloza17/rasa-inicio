@@ -8,6 +8,9 @@ import random
 import unicodedata
 import requests
 
+from django.template import loader
+from django.http import HttpResponse
+
 def normalizar_texto(texto):
     texto = texto.lower()
     texto = re.sub(r'[^\w\s]', '', texto)
@@ -16,13 +19,18 @@ def normalizar_texto(texto):
     return texto.strip()
 
 def validar_pregunta(user_question):
-    # Verificar palabras clave para activar el menú
-    keywords = ["problema", "ayuda", "soporte", "ayúdame"]  # Ejemplo de palabras clave
+    keywords = ["problema", "ayuda", "soporte", "ayúdame"]
     for keyword in keywords:
         if keyword in user_question.lower():
             return keyword, True
-    
     return None, False
+
+def contiene_palabra_baneada(texto):
+    palabras_baneadas = palabrabaneada.objects.values_list('palabra', flat=True)
+    for palabra in palabras_baneadas:
+        if palabra in texto:
+            return True
+    return False
 
 @csrf_exempt
 def rasa_chat(request):
@@ -34,17 +42,22 @@ def rasa_chat(request):
                 return JsonResponse({"error": "Pregunta no proporcionada"}, status=400)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Cuerpo de solicitud inválido"}, status=400)
+        if contiene_palabra_baneada(user_question.lower()):
+            return JsonResponse({"error": "La pregunta contiene palabras prohibidas"}, status=400)
 
-        # Validar la pregunta del usuario
         menu_keyword, activar_menu = validar_pregunta(user_question)
         if activar_menu:
-            # Renderizar la plantilla HTML del menú
-            return render(request, 'menu.html')
+            # return render(request, 'menu.html', {})  # Proporcionar contexto vacío
+            template = loader.get_template('menu.html')
+            return HttpResponse(template.render())
 
         try:
             response = requests.post(
                 'http://localhost:5005/webhooks/rest/webhook',
-                json={"message": user_question}
+                json={
+                    "sender": "default",  # Utiliza un valor fijo para el sender
+                    "message": user_question
+                }
             )
 
             if response.status_code != 200:
@@ -68,14 +81,13 @@ def respuestas(request):
             data = json.loads(request.body)
             question = data.get('question', '').strip().lower()
         except json.JSONDecodeError:
-            return JsonResponse({
-                "error": "Cuerpo de solicitud inválido"
-            }, status=400)
+            return JsonResponse({"error": "Cuerpo de solicitud inválido"}, status=400)
 
         if not question:
-            return JsonResponse({
-                "error": "Campo pregunta obligatorio"
-            }, status=400)
+            return JsonResponse({"error": "Campo pregunta obligatorio"}, status=400)
+
+        if contiene_palabra_baneada(question):
+            return JsonResponse({"error": "La pregunta contiene palabras prohibidas"}, status=400)
 
         try:
             response_entries = pregunta.objects.filter(frase__iexact=question)
@@ -85,11 +97,13 @@ def respuestas(request):
                 response = random_response.respuesta
                 return JsonResponse({'response': response})
             else:
-                # Si no hay respuesta en la base de datos, enviar la pregunta a Rasa
                 try:
                     response = requests.post(
                         'http://localhost:5005/webhooks/rest/webhook',
-                        json={"message": question}
+                        json={
+                            "sender": "default",  # Utiliza un valor fijo para el sender
+                            "message": question
+                        }
                     )
 
                     if response.status_code != 200:
@@ -106,8 +120,11 @@ def respuestas(request):
 
         except Exception as e:
             print(f"Error al buscar respuesta en la base de datos: {e}")
-            return JsonResponse({
-                "error": "Error interno del servidor. Inténtalo más tarde."
-            }, status=500)
+            return JsonResponse({"error": "Error interno del servidor. Inténtalo más tarde."}, status=500)
 
     return JsonResponse({"error": "Método inválido. Utilice POST"}, status=405)
+
+
+def main(request):
+  template = loader.get_template('menu.html')
+  return HttpResponse(template.render())
