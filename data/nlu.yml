@@ -1,49 +1,57 @@
 version: "3.1"
 
 nlu:
-- intent: Saludo
-  examples: |
-    - ¡Hola!
-    - Hola
-    - Buen día
-    - ¿Cómo estás?
+  - intent: Saludo
+    examples: |
+      - ¡Hola!
+      - Hola
+      - Buen día
+      - ¿Cómo estás?
 
-- intent: Despedida
-  examples: |
-    - Adiós
-    - Hasta luego
-    - Nos vemos
+  - intent: Despedida
+    examples: |
+      - Adiós
+      - Hasta luego
+      - Nos vemos
+      - Ten un buen dia
+      - Buenas noches
 
-- intent: preguntar_Problemas
-  examples: |
-    - Tengo un problema
-    - Necesito ayuda
-    - ¿Puedes ayudarme?
+  - intent: preguntar_Problemas
+    examples: |
+      - Tengo un problema
+      - Necesito ayuda
+      - ¿Puedes ayudarme?
+      - Ayudame
+      - tengo una consulta
+      - ¿Me ayudas?
 
-- intent: preguntar_nombre_bot
-  examples: |
-    - ¿Cómo te llamas?
-    - Nombre del bot
-    - ¿Quién eres?
+  - intent: preguntar_nombre_bot
+    examples: |
+      - ¿Cómo te llamas?
+      - Nombre del bot
+      - ¿Quién eres?
 
-- intent: nlu_fallback
-  examples: |
-    - No entiendo
-    - ¿Puedes repetir eso?
+  - intent: nlu_fallback
+    examples: |
+      - ¿Que es una manzana?
+      - ¿que dia sera mañana?
+      - Frutas o verduras verdes
+      - jbdhbabgkbkajse
+      - asdfghjkl
+      - holaasdfasdf
+      - ¿Qué es esto?
+      - Dime algo sobre tu creador
+      - ¿Quien te creo?
+      - q234
+      - asdf56789sdfg
+      - abcd1234
 
-- intent: solo_numeros_y_blanco
-  examples: |
-    - q1234
-    - 56789
-    - " "
-    - 0
-    - 00 0 111
-    - 1 2 3 4 0 
-    - +
-    - *
-
-- intent: seleccionar_problema
-  examples: |
-    - Problema 1
-    - Problema 2
-    - Problema 3
+  - intent: solo_numeros_y_blanco
+    examples: |
+      - 56789
+      - " "
+      - 0
+      - 00 0 111
+      - 1 2 3 4 0 
+      - +
+      - *

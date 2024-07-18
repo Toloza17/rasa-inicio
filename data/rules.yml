@@ -11,10 +11,10 @@ rules:
       - intent: Despedida
       - action: utter_despedida
 
-  - rule: responder_problema
+  - rule: tipo_problema
     steps:
-      - intent: preguntar_Problemas
-      - action: utter_preguntar_problemas
+       - intent: preguntar_Problemas
+       - action: utter_preguntar_problemas 
 
   - rule: preguntar_nombre_del_bot
     steps:

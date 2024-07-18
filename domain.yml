@@ -1,5 +1,13 @@
 version: "3.1"
 
+intents:
+  - Saludo
+  - Despedida
+  - preguntar_Problemas
+  - preguntar_nombre_bot
+  - nlu_fallback
+  - solo_numeros_y_blanco
+
 responses:
   utter_saludo:
     - text: "¡Hola! ¿En qué puedo ayudarte hoy?"
@@ -15,45 +23,24 @@ responses:
 
   utter_preguntar_problemas:
     - text: "¿Qué tipo de problema tienes?"
-    - custom:
-        text: "¿Cuál es el problema que estás experimentando?"
+    - text: "¿Cuál es el problema que estás experimentando?"
 
   utter_nombre_bot:
     - text: "Soy Lyra, tu asistente virtual."
     - text: "Me llamo Lyra"
     - text: "Mi nombre es Lyra, un chatbot para ayudarte"
+    - text: "Me han dado el nombre de Lyra"
 
   utter_default:
     - text: "Lo siento, no entendí eso. ¿Puedes reformular tu pregunta?"
+    - text: "No te puedo ayudar con eso. Haz otra pregunta"
 
   utter_ask_invalid_number_question:
     - text: "Solo respondo preguntas alfanuméricas. Vuelve a intentar."
 
   utter_ask_valid_question:
     - text: "Necesito una pregunta para responder."
-
-  utter_seleccionar_problema:
-    - text: "Entiendo, tienes un {problem_type}. Vamos a solucionarlo."
-
-intents:
-  - Saludo
-  - Despedida
-  - preguntar_Problemas
-  - preguntar_nombre_bot
-  - nlu_fallback
-  - solo_numeros_y_blanco
-  - seleccionar_problema
-
-entities:
-  - problem_type
-
-slots:
-  problem_type:
-    type: text
-    mappings:
-      - type: from_text
-        intent: seleccionar_problema
-        entity: problem_type
+    - text: "Espero tu pregunta."
 
 actions:
   - action_saludar_usuario
@@ -61,7 +48,6 @@ actions:
   - action_default_fallback
   - action_solo_numeros_y_blanco
   - action_mensaje_en_blanco
-  - action_guardar_respuesta
 
 session_config:
   session_expiration_time: 200
