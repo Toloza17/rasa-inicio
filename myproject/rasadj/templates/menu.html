@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Ayuda</title>
+</head>
+<body>
+    <h1>¿En qué puedo ayudarte?</h1>
+    <form action="{% url 'rasa_chat' %}" method="POST">
+        {% csrf_token %}
+        <label for="user_question">Selecciona una opción:</label><br>
+        <select id="user_question" name="user_question">
+            <option value="problema">Tengo un problema</option>
+            <option value="ayuda">Necesito ayuda</option>
+            <option value="soporte">Requiero soporte</option>
+            <option value="otro">Otra consulta</option>
+        </select><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
