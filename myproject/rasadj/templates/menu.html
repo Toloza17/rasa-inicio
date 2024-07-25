@@ -2,20 +2,121 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú de Ayuda</title>
+    <title>Menu de Ayuda</title>
+    <style>
+        .menu-container {
+            margin: 20px;
+        }
+
+        .menu-item {
+            position: relative;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            width: 300px; /* Ajusta el ancho del menú principal */
+        }
+
+        .menu-item label {
+            display: inline-block;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            padding: 5px 10px; /* Ajusta el padding para reducir el tamaño */
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+            font-size: 0.9em; /* Reduce el tamaño de la fuente */
+        }
+
+        .sub-menu {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            margin-left: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+            z-index: 1;
+            width: 200px; /* Ajusta el ancho del submenú */
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked + label + .sub-menu {
+            display: block;
+        }
+
+        .sub-menu label {
+            font-size: 0.8em; /* Reduce el tamaño de la palabra "Opciones" */
+            display: block;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            padding: 5px 10px; /* Ajusta el padding para reducir el tamaño */
+            margin: 0;
+        }
+
+        .sub-menu select {
+            width: 100%;
+            margin: 0;
+            font-size: 0.9em; /* Ajusta el tamaño de la fuente en el select */
+        }
+
+        .sub-menu option {
+            font-size: 0.9em; /* Ajusta el tamaño de la fuente en las opciones */
+        }
+    </style>
 </head>
 <body>
-    <h1>¿En qué puedo ayudarte?</h1>
-    <form action="{% url 'rasa_chat' %}" method="POST">
-        {% csrf_token %}
-        <label for="user_question">Selecciona una opción:</label><br>
-        <select id="user_question" name="user_question">
-            <option value="problema">Problema con la clave</option>
-            <option value="ayuda">Error de inicio sesion</option>
-            <option value="otro">Otra consulta</option>
-        </select><br><br>
-        <button type="submit">Enviar</button>
-    </form>
+    <div id="header">
+        <h1>Menu de Ayuda</h1>
+    </div>
+    <div class="menu-container">
+        <form action="{% url 'rasa_chat' %}" method="POST">
+            {% csrf_token %}
+            <label for="user_question">Selecciona una opción:</label>
+
+            <div class="menu-item">
+                <input type="radio" id="problema" name="question" value="problema">
+                <label for="problema">Problema con la clave</label>
+                <div class="sub-menu">
+                    <label for="sub_question_problema">Opciones:</label>
+                    <select id="sub_question_problema" name="sub_question">
+                        <option value="">Recuperación de la contraseña</option>
+                        <option value="">Crear nueva clave</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <input type="radio" id="ayuda" name="question" value="ayuda">
+                <label for="ayuda">Error de inicio de sesión</label>
+                <div class="sub-menu">
+                    <label for="sub_question_ayuda">Opciones:</label>
+                    <select id="sub_question_ayuda" name="sub_question">
+                        <option value="">No puedo conectarme</option>
+                        <option value="">Error al intentar conectarme al servidor</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <input type="radio" id="otro" name="question" value="otro">
+                <label for="otro">Otra consulta</label>
+                <div class="sub-menu">
+                    <label for="sub_question_otro">Opciones:</label>
+                    <select id="sub_question_otro" name="sub_question">
+                        <option value="">Otra consulta: 1</option>
+                        <option value="">Otra consulta: 2</option>
+                        <option value="">Otra consulta: 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <br><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 </body>
 </html>

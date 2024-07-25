@@ -8,9 +8,6 @@ import random
 import unicodedata
 import requests
 
-from django.template import loader
-from django.http import HttpResponse
-
 def normalizar_texto(texto):
     texto = texto.lower()
     texto = re.sub(r'[^\w\s]', '', texto)
@@ -19,7 +16,7 @@ def normalizar_texto(texto):
     return texto.strip()
 
 def validar_pregunta(user_question):
-    keywords = ["problema", "ayuda", "soporte", "ayúdame"]
+    keywords = ["problema", "ayuda", "soporte", "ayúdame", "error", "tengo un error", 'duda', 'estoy experimentando un error']
     for keyword in keywords:
         if keyword in user_question.lower():
             return keyword, True
@@ -35,27 +32,31 @@ def contiene_palabra_baneada(texto):
 @csrf_exempt
 def rasa_chat(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            user_question = data.get('question')
+        if request.content_type == 'application/json':
+            try:
+                data = json.loads(request.body)
+                user_question = data.get('question')
+                if not user_question:
+                    return JsonResponse({"error": "Pregunta no proporcionada"}, status=400)
+            except json.JSONDecodeError:
+                return JsonResponse({"error": "Cuerpo de solicitud inválido"}, status=400)
+        else:
+            user_question = request.POST.get('user_question')
             if not user_question:
                 return JsonResponse({"error": "Pregunta no proporcionada"}, status=400)
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Cuerpo de solicitud inválido"}, status=400)
+
         if contiene_palabra_baneada(user_question.lower()):
             return JsonResponse({"error": "La pregunta contiene palabras prohibidas"}, status=400)
 
         menu_keyword, activar_menu = validar_pregunta(user_question)
         if activar_menu:
-            # return render(request, 'menu.html', {})  # Proporcionar contexto vacío
-            template = loader.get_template('menu.html')
-            return HttpResponse(template.render())
-
+            return render(request, 'menu.html')
+        
         try:
             response = requests.post(
                 'http://localhost:5005/webhooks/rest/webhook',
                 json={
-                    "sender": "default",  # Utiliza un valor fijo para el sender
+                    "sender": "default",
                     "message": user_question
                 }
             )
@@ -70,13 +71,21 @@ def rasa_chat(request):
             return JsonResponse(rasa_response, safe=False)
 
         except requests.ConnectionError:
-            return JsonResponse({"error": "Error de conexión con el servidor de Rasa"}, status=500)
-    
+            return JsonResponse({"error": "Error de conexión con el servidor de Rasa"}, status=500)    
     return JsonResponse({"error": "Acción denegada, utilice POST"}, status=405)
 
 @csrf_exempt
 def respuestas(request):
     if request.method == 'POST':
+        user_choice = request.POST.get('user_choice')
+        if user_choice:
+            if user_choice == 'Problema':
+                return render(request, 'clave.html')
+            elif user_choice == 'Ayuda':
+                return render(request, 'sesion.html')
+            elif user_choice == 'otro':
+                return render(request, 'otro.html')
+
         try:
             data = json.loads(request.body)
             question = data.get('question', '').strip().lower()
@@ -101,7 +110,7 @@ def respuestas(request):
                     response = requests.post(
                         'http://localhost:5005/webhooks/rest/webhook',
                         json={
-                            "sender": "default",  # Utiliza un valor fijo para el sender
+                            "sender": "default",
                             "message": question
                         }
                     )
@@ -124,7 +133,14 @@ def respuestas(request):
 
     return JsonResponse({"error": "Método inválido. Utilice POST"}, status=405)
 
+def menu(request):
+    return render(request, 'menu.html')
 
-def main(request):
-  template = loader.get_template('menu.html')
-  return HttpResponse(template.render())
+def clave(request):
+    return render(request, 'clave.html')
+
+def sesion(request):
+    return render(request, 'sesion.html')
+
+def otro(request):
+    return render(request, 'otro.html')
