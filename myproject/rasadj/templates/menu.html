@@ -75,7 +75,7 @@
     <div class="menu-container">
         <form action="{% url 'rasa_chat' %}" method="POST">
             {% csrf_token %}
-            <label for="user_question">Selecciona una opción:</label>
+            <label for="user_question">¿Qué problema tienes?:</label><br><br> <!-- Salto de línea añadido aquí -->
 
             <div class="menu-item">
                 <input type="radio" id="problema" name="question" value="problema">
@@ -83,8 +83,8 @@
                 <div class="sub-menu">
                     <label for="sub_question_problema">Opciones:</label>
                     <select id="sub_question_problema" name="sub_question">
-                        <option value="">Recuperación de la contraseña</option>
-                        <option value="">Crear nueva clave</option>
+                        <option value="recuperacion_contraseña">Recuperación de la contraseña</option>
+                        <option value="crear_nueva_clave">Crear nueva clave</option>
                     </select>
                 </div>
             </div>
@@ -95,8 +95,8 @@
                 <div class="sub-menu">
                     <label for="sub_question_ayuda">Opciones:</label>
                     <select id="sub_question_ayuda" name="sub_question">
-                        <option value="">No puedo conectarme</option>
-                        <option value="">Error al intentar conectarme al servidor</option>
+                        <option value="No_puedo_conectarme">No puedo conectarme</option>
+                        <option value="Error_al_intentar_conectarme_al_servidor">Error al intentar conectarme al servidor</option>
                     </select>
                 </div>
             </div>
@@ -107,9 +107,9 @@
                 <div class="sub-menu">
                     <label for="sub_question_otro">Opciones:</label>
                     <select id="sub_question_otro" name="sub_question">
-                        <option value="">Otra consulta: 1</option>
-                        <option value="">Otra consulta: 2</option>
-                        <option value="">Otra consulta: 3</option>
+                        <option value="Otra_consulta:_1">Otra consulta: 1</option>
+                        <option value="Otra_consulta:_2">Otra consulta: 2</option>
+                        <option value="Otra_consulta:_3">Otra consulta: 3</option>
                     </select>
                 </div>
             </div>

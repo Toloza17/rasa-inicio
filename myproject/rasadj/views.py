@@ -16,7 +16,7 @@ def normalizar_texto(texto):
     return texto.strip()
 
 def validar_pregunta(user_question):
-    keywords = ["problema", "ayuda", "soporte", "ayúdame", "error", "tengo un error", 'duda', 'estoy experimentando un error']
+    keywords = ["problema", "ayuda", "soporte", "ayúdame", "error", "tengo un error", 'duda', 'estoy experimentando un error','otro']
     for keyword in keywords:
         if keyword in user_question.lower():
             return keyword, True
@@ -32,16 +32,20 @@ def contiene_palabra_baneada(texto):
 @csrf_exempt
 def rasa_chat(request):
     if request.method == 'POST':
+        # Manejo de datos en formato JSON
         if request.content_type == 'application/json':
             try:
                 data = json.loads(request.body)
                 user_question = data.get('question')
+                sub_question = data.get('sub_question', '')  # Obtén la opción secundaria si está disponible
                 if not user_question:
                     return JsonResponse({"error": "Pregunta no proporcionada"}, status=400)
             except json.JSONDecodeError:
                 return JsonResponse({"error": "Cuerpo de solicitud inválido"}, status=400)
         else:
-            user_question = request.POST.get('user_question')
+            # Manejo de datos enviados desde un formulario
+            user_question = request.POST.get('question')
+            sub_question = request.POST.get('sub_question', '')  # Obtén la opción secundaria si está disponible
             if not user_question:
                 return JsonResponse({"error": "Pregunta no proporcionada"}, status=400)
 
@@ -51,13 +55,26 @@ def rasa_chat(request):
         menu_keyword, activar_menu = validar_pregunta(user_question)
         if activar_menu:
             return render(request, 'menu.html')
-        
+
+        # Maneja el campo sub_question si es necesario
+        if user_question == 'problema':
+            # Lógica para problema
+            combined_message = f"Problema: {sub_question}" if sub_question else "Problema con la clave"
+        elif user_question == 'ayuda':
+            # Lógica para ayuda
+            combined_message = f"Error de inicio de sesión: {sub_question}" if sub_question else "Error de inicio de sesión"
+        elif user_question == 'otro':
+            # Lógica para otro
+            combined_message = f"Otra consulta: {sub_question}" if sub_question else "Otra consulta"
+        else:
+            combined_message = user_question
+
         try:
             response = requests.post(
                 'http://localhost:5005/webhooks/rest/webhook',
                 json={
                     "sender": "default",
-                    "message": user_question
+                    "message": combined_message
                 }
             )
 
@@ -77,15 +94,6 @@ def rasa_chat(request):
 @csrf_exempt
 def respuestas(request):
     if request.method == 'POST':
-        user_choice = request.POST.get('user_choice')
-        if user_choice:
-            if user_choice == 'Problema':
-                return render(request, 'clave.html')
-            elif user_choice == 'Ayuda':
-                return render(request, 'sesion.html')
-            elif user_choice == 'otro':
-                return render(request, 'otro.html')
-
         try:
             data = json.loads(request.body)
             question = data.get('question', '').strip().lower()
@@ -135,12 +143,3 @@ def respuestas(request):
 
 def menu(request):
     return render(request, 'menu.html')
-
-def clave(request):
-    return render(request, 'clave.html')
-
-def sesion(request):
-    return render(request, 'sesion.html')
-
-def otro(request):
-    return render(request, 'otro.html')
